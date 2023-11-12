@@ -1,5 +1,11 @@
+// Author: Frederick Emmanuel S. Estares
+// Description: Program for books shopping and catalogue
+// Date: November 12, 2023
+
+// for standard IO
 use std::io;
 
+// structure for books
 struct Book {
     book_id : u32 ,
     book_title : String ,
@@ -8,12 +14,14 @@ struct Book {
     stock : u32
 }
 
+// structure for customers
 struct Customer {
     name : String ,
     orders : Vec <String> ,
     total_cost : f64
 }
 
+// helper functions for creating an instance of a book and customer
 fn create_book(id:u32, title:String, author:String, price:f64, stock:u32) -> Book{
     Book{book_id : id, book_title : title, author : author, price : price, stock : stock}
 }
@@ -22,6 +30,7 @@ fn create_customer(name: String, orders: Vec <String>, total_cost: f64) -> Custo
     Customer{name:name, orders:orders, total_cost:total_cost}
 }
 
+// iterates through the customer vector then prints their information
 fn view_all_customers(customer_vec:&mut Vec<Customer>){
     for customer in &mut *customer_vec{
         println!("\nCustomer Name: {:?}\n", customer.name);
@@ -33,12 +42,16 @@ fn view_all_customers(customer_vec:&mut Vec<Customer>){
 
 }
 
+// iterates through the book vector then prints their information
 fn view_all_books(book_vec:&mut Vec<Book>){
     for book in &mut *book_vec{
         println!{"\nBook ID: {}\nBook Title: {:?}\nAuthor: {:?}\nPrice: {}\nStock: {}\n",  book.book_id, book.book_title, book.author, book.price, book.stock};
     }
 }
 
+// asks for a book ID then checks if it exists in the book vector
+// prompts user if it doesn't
+// removes the book out of the vector
 fn delete_book_information(book_vec:&mut Vec<Book>){
     let mut id = String::new();
     let mut id_doesnt_exists = true;
@@ -63,6 +76,9 @@ fn delete_book_information(book_vec:&mut Vec<Book>){
     }
 }
 
+// asks for a book ID then checks if it exists in the book vector
+// prompts user if it doesn't
+// let's the user change the price and stock of the chosen book
 fn edit_book_information(book_vec:&mut Vec<Book>){
     let mut id = String::new();
     let mut price = String::new();
@@ -97,6 +113,14 @@ fn edit_book_information(book_vec:&mut Vec<Book>){
     }
 }
 
+// prints all the existing books
+// asks for a book ID then checks if it exists in the book vector
+// prompts user if it doesn't
+// prompts the user if the chosen book is out of stock
+// checks if the customer already exists in the customer vector
+// if they do, updates their orders and total cost
+// creates a new instance of customer with the given name, order, and cost
+// pushes the newly created customer to the customer vector
 fn buy_a_book(book_vec:&mut Vec<Book>, customer_vec:&mut Vec<Customer>){
     let mut name = String::new();
     let mut id = String::new();
@@ -155,6 +179,9 @@ fn buy_a_book(book_vec:&mut Vec<Book>, customer_vec:&mut Vec<Customer>){
     }
 }
 
+// asks for a book ID, if it already exists, prompts the user
+// if it doesn't asks for other information about the book then creates an instance of the book
+// pushes the newly created book to the book vector
 fn add_book_information(book_vec:&mut Vec<Book>){
     let mut id = String::new();
     let mut id_doesnt_exists = true;
@@ -198,6 +225,9 @@ fn add_book_information(book_vec:&mut Vec<Book>){
     }
 }
 
+// prints all of the available functionalities
+// asks for a choice
+// returns the choice
 fn menu() -> isize {
     let mut choice = String::new();
 
@@ -216,6 +246,11 @@ fn menu() -> isize {
     choice
 }
 
+// repeatedly prints the menu
+// checks if the book vector is empty, prompts the user
+// prompts the user if the choice is invalid
+// calls the appropriate function for the choice
+// terminates when the choice is exit (7)
 fn main() {
     let mut customer_vector:Vec<Customer> = Vec::new();
     let mut book_vector:Vec<Book> = Vec::new();
